@@ -3,29 +3,35 @@ package org.example.ejercicios;
 import java.util.List;
 
 public class Facturaciom2 {
-	record Factura(String cliente, String fechafactura, List<Double> precioProducto) {
-	}
+	record Factura(String cliente, String fechafactura, List<Double> precioProducto) {}
 
 	public static void main(String[] args) {
-		Factura factura1 = new Factura("Maria Sannabria", "Julio 1, 1999", List.of(4500D, 5000D, 2500D));
-		Factura factura2 = new Factura("Juan Perez", "Agosto 15, 2000", List.of(3500D, 6000D, 2800D));
+		List<Factura> facturas = List.of(
+				new Factura("Maria Sannabria", "Julio 1, 1999", List.of(4500D, 5000D, 2500D)),
+				new Factura("Juan Perez", "Agosto 15, 2000", List.of(3500D, 6000D, 2800D)),
+				new Factura("Bryan Molina", "Enero 30, 1996", List.of(5000D, 7000D, 4000D))
+		);
 
-		double totalValorFact1 = 0;
-		for (Double precio : factura1.precioProducto) {
-			totalValorFact1 += precio;
+		for (Factura factura : facturas) {
+			double totalValorFactura = calcularTotal(factura);
+			imprimirFactura("Factura Generada: ", factura, totalValorFactura);
 		}
-		System.out.println("Factura 1" );
-		System.out.println("Cliente: " + factura1.cliente());
-		System.out.println("Total: " + totalValorFact1);
-
-
-		double totalValorFact2 = 0;
-		for (Double precio : factura2.precioProducto) {
-			totalValorFact2 += precio;
-		}
-		System.out.println("Factura 2" );
-		System.out.println("Cliente: " + factura2.cliente());
-		System.out.println("Total: " + totalValorFact2);
 	}
+
+	static double calcularTotal(Factura factura) {
+		double total = 0;
+		for (Double precio : factura.precioProducto) {
+			total += precio;
+		}
+		return total;
+	}
+
+	static void imprimirFactura(String titulo, Factura factura, double total) {
+		System.out.println(titulo);
+		System.out.println("Cliente: " + factura.cliente());
+		System.out.println("Total: " + total);
+		System.out.println();
+	}
+
 
 }
